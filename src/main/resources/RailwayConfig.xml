@@ -2,7 +2,7 @@
 <workbook>
    <worksheet idx="0">
       <section startRow="1" endRow="4"/>
-      <loop startRow="1" endRow="1" items="EntityList" var="Entity" varType="primary.Entity">
+      <loop startRow="1" endRow="1" items="EntityList" var="Entity" varType="primary.EntityTest">
           <section startRow="1" endRow="1">
               <mapping row="1" col="2">Entity.name</mapping>
               <mapping row="1" col="3">Entity.sex</mapping>

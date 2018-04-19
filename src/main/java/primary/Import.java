@@ -21,16 +21,12 @@ import static util.CreateXmlUtill.createXml;
 
 
 /**
- * All rights Reserved, Designed By LXKJ
  * 类　名: primary.Import
  * 包　名: PACKAGE_NAME
- * 所　属: 路讯科技
  * 版　权: 2018 LXKJ Inc. All rights reserved.
  * 日　期: 2018/4/16 11:12
  * 版　本: V1.0
  * 创建人：YanYong(zivyan@qq.com)
- * 修改人：无
- * 注　意：本内容仅限于路讯科技内部传阅，禁止外泄以及用于其他的 商业目的
  * 描　述: EXCEL文件信息获取
  */
 public class Import {
@@ -79,18 +75,11 @@ public class Import {
     }
 
 
-    /**
-     * @Auther: ＾＿－)≡★ yanyong
-     * @Date: 2018/4/16 15:12
-     * @Description:
-     * @param t
-     * @return util.Genericity<T>
-     */
-    public <T> Genericity<T> entityGen(T t){
+   /* public <T> Genericity<T> entityGen(T t){
         System.out.println("toString:"+t.getClass());
         Genericity<T> genericity = new Genericity<>();
         genericity.setT(t);
         return genericity;
-    }
+    }*/
 
 }
