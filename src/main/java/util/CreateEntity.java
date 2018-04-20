@@ -1,6 +1,13 @@
 package util;
 
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,17 +30,31 @@ public class CreateEntity {
     //表名
     private String tablename = "cfj_user";
     // 列名数组
-    private String[] colnames;
+    private String[] colnames = new String[]{"name","shool","sex"};
     //列名类型数组
-    private String[] colTypes;
+    private String[] colTypes = new String[]{"String","String","String"};
     //列名大小数组
     private int[] colSizes;
     // 是否需要导入包java.util.*
-    private boolean f_util = false;
+    private boolean f_util = true;
     // 是否需要导入包java.sql.*
     private boolean f_sql = false;
 
+    @Test
+    public void test() throws IOException {
+        String content = parse();
+        File directory = new File("");// 参数为空
+        String courseFile = directory.getCanonicalPath();
+        System.out.println(courseFile);
 
+        String outputPath = directory.getAbsolutePath()+ "/src/main/java/"+this.packageOutPath.replace(".", "/")+"/"+initcap(tablename) + ".java";
+        System.out.println(outputPath);
+        FileWriter fw = new FileWriter(outputPath);
+        PrintWriter pw = new PrintWriter(fw);
+        pw.println(content);
+        pw.flush();
+        pw.close();
+    }
 
     /**
      * 功能：生成实体类主体代码
@@ -57,11 +78,10 @@ public class CreateEntity {
         sb.append("    */ \r\n");
         //实体部分
         sb.append("\r\n\r\npublic class " + initcap(tablename) + "{\r\n");
-        //属性
-        processAllAttrs(sb);
-        //get set方法
-        processAllMethod(sb);
+        processAllAttrs(sb);//属性
+        processAllMethod(sb);//get set方法
         sb.append("}\r\n");
+        System.out.println(sb.toString());
         return sb.toString();
     }
 
@@ -70,8 +90,9 @@ public class CreateEntity {
      * @param sb
      */
     private void processAllAttrs(StringBuffer sb) {
+
         for (int i = 0; i < colnames.length; i++) {
-            sb.append("\tprivate String " + colnames[i] + ";\r\n");
+            sb.append("\tprivate " + colTypes[i] + " " + colnames[i] + ";\r\n");
         }
 
     }
@@ -81,15 +102,17 @@ public class CreateEntity {
      * @param sb
      */
     private void processAllMethod(StringBuffer sb) {
+
         for (int i = 0; i < colnames.length; i++) {
-            sb.append("\tpublic void set" + initcap(colnames[i]) + "( String " +
+            sb.append("\tpublic void set" + initcap(colnames[i]) + "(" + colTypes[i] + " " +
                     colnames[i] + "){\r\n");
             sb.append("\tthis." + colnames[i] + "=" + colnames[i] + ";\r\n");
             sb.append("\t}\r\n");
-            sb.append("\tpublic String get" + initcap(colnames[i]) + "(){\r\n");
+            sb.append("\tpublic " + colTypes[i] + " get" + initcap(colnames[i]) + "(){\r\n");
             sb.append("\t\treturn " + colnames[i] + ";\r\n");
             sb.append("\t}\r\n");
         }
+
     }
 
     /**
@@ -98,12 +121,13 @@ public class CreateEntity {
      * @return
      */
     private String initcap(String str) {
+
         char[] ch = str.toCharArray();
         if(ch[0] >= 'a' && ch[0] <= 'z'){
             ch[0] = (char)(ch[0] - 32);
         }
+
         return new String(ch);
     }
-
 
 }

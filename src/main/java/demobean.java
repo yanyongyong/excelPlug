@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static primary.Import.readExcelData;
-import static util.CreateEntity.createBean;
+//import static util.CreateEntity.createBean;
 
 /**
  * 类　名: demobean
@@ -27,9 +27,9 @@ public class demobean {
         //获取从第一行（除去标题的第一行）开始第二列的所有数据
         list.add(new ExcelRowColformat("1","1","name"));
         list.add(new ExcelRowColformat("1","2","sex"));
-        CglibBean bean = createBean(list);
+//        CglibBean bean = createBean(list);
         // 获得bean的实体
-        Object object = bean.getObject();
+//        Object object = bean.getObject();
 
         //提取EXCEL文件信息
 //        List<EntityTest> entityList = readExcelData(entity,"1","4",list,"D:\\workInformation\\2017.xls");
