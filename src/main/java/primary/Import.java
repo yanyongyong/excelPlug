@@ -44,7 +44,7 @@ public class Import {
         if(createXml(t,startRow,endRow,excelRowColformatList)){
             String pathName = t.getClass().getName();
             String[] typeNameString = pathName.split("\\.");
-            return readData(t,typeNameString+".xml",path);
+            return readData(t,typeNameString[typeNameString.length-1]+".xml",path);
         }else {
             logger.info("返回的为null");
             return null;
@@ -58,8 +58,9 @@ public class Import {
      */
     public static  <T> List<T> readData(T t,String xmlPath,String path){
         List<T> genericities = new ArrayList<>();
+        System.out.println(xmlPath);
         try {
-            InputStream inputXML = new BufferedInputStream(Import.class.getClassLoader().getResourceAsStream("Entity.xml"));
+            InputStream inputXML = new BufferedInputStream(Import.class.getClassLoader().getResourceAsStream(xmlPath));
             XLSReader mainReader = ReaderBuilder.buildFromXML(inputXML);
             InputStream inputXLS = new BufferedInputStream(new FileInputStream(new File(path)));
             Map<String,Object> beans = new HashMap<String,Object>();

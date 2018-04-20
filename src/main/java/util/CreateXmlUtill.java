@@ -61,7 +61,8 @@ public class CreateXmlUtill {
             Element loop = document.createElement("loop");
             loop.setAttribute("startRow","1");
             loop.setAttribute("endRow","1");
-            loop.setAttribute("items",typeName+"List");
+//            loop.setAttribute("items",typeName+"List");
+            loop.setAttribute("items","EntityList");
             loop.setAttribute("var",typeName);
             loop.setAttribute("varType",pathName);
             worksheet.appendChild(loop);
