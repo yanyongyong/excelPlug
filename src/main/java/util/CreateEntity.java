@@ -24,15 +24,15 @@ import java.util.List;
 public class CreateEntity {
 
     //指定实体生成所在包的路径
-    private String packageOutPath = "primary";
+//    private String packageOutPath = "primary";
     //作者名字
-    private String authorName = "严勇";
+//    private String authorName = "严勇";
     //表名
-    private String tablename = "cfj_user";
+//    private String tablename = "cfj_user";
     // 列名数组
-    private String[] colnames = new String[]{"name","shool","sex"};
+//    private String[] colnames = new String[]{"name","shool","sex"};
     //列名类型数组
-    private String[] colTypes = new String[]{"String","String","String"};
+//    private String[] colTypes = new String[]{"String","String","String"};
     //列名大小数组
     private int[] colSizes;
     // 是否需要导入包java.util.*
@@ -40,29 +40,28 @@ public class CreateEntity {
     // 是否需要导入包java.sql.*
     private boolean f_sql = false;
 
-    @Test
-    public void test() throws IOException {
-        String content = parse();
+
+    public void entitys(String packageOutPath,String entityName,String[] colnames,String[] colTypes) throws IOException {
+        String content = parse(packageOutPath,entityName,colnames,colTypes);
         File directory = new File("");// 参数为空
         String courseFile = directory.getCanonicalPath();
-        System.out.println(courseFile);
-
-        String outputPath = directory.getAbsolutePath()+ "/src/main/java/"+this.packageOutPath.replace(".", "/")+"/"+initcap(tablename) + ".java";
-        System.out.println(outputPath);
+        String outputPath = directory.getAbsolutePath()+ "/src/main/java/"+packageOutPath.replace(".", "/")+"/"+initcap(entityName) + ".java";
         FileWriter fw = new FileWriter(outputPath);
         PrintWriter pw = new PrintWriter(fw);
         pw.println(content);
         pw.flush();
         pw.close();
+
     }
+
 
     /**
      * 功能：生成实体类主体代码
      * @return
      */
-    private String parse() {
+    private String parse(String packageOutPath,String entityName,String colnames[],String colTypes[]) {
         StringBuffer sb = new StringBuffer();
-        sb.append("package " + this.packageOutPath + ";\r\n");
+        sb.append("package " + packageOutPath + ";\r\n");
         //判断是否导入工具包
         if(f_util){
             sb.append("import java.util.Date;\r\n");
@@ -73,13 +72,13 @@ public class CreateEntity {
         sb.append("\r\n");
         //注释部分
         sb.append("   /**\r\n");
-        sb.append("    * "+tablename+" 实体类\r\n");
-        sb.append("    * "+new Date()+" "+this.authorName+"\r\n");
+        sb.append("    * "+entityName+" 实体类\r\n");
+//        sb.append("    * "+new Date()+" "+this.authorName+"\r\n");
         sb.append("    */ \r\n");
         //实体部分
-        sb.append("\r\n\r\npublic class " + initcap(tablename) + "{\r\n");
-        processAllAttrs(sb);//属性
-        processAllMethod(sb);//get set方法
+        sb.append("\r\n\r\npublic class " + initcap(entityName) + "{\r\n");
+        processAllAttrs(sb,colnames,colTypes);//属性
+        processAllMethod(sb,colnames,colTypes);//get set方法
         sb.append("}\r\n");
         System.out.println(sb.toString());
         return sb.toString();
@@ -89,7 +88,7 @@ public class CreateEntity {
      * 功能：生成所有属性
      * @param sb
      */
-    private void processAllAttrs(StringBuffer sb) {
+    private void processAllAttrs(StringBuffer sb,String colnames[],String colTypes[]) {
 
         for (int i = 0; i < colnames.length; i++) {
             sb.append("\tprivate " + colTypes[i] + " " + colnames[i] + ";\r\n");
@@ -101,7 +100,7 @@ public class CreateEntity {
      * 功能：生成所有方法
      * @param sb
      */
-    private void processAllMethod(StringBuffer sb) {
+    private void processAllMethod(StringBuffer sb,String[] colnames,String colTypes[]) {
 
         for (int i = 0; i < colnames.length; i++) {
             sb.append("\tpublic void set" + initcap(colnames[i]) + "(" + colTypes[i] + " " +
