@@ -80,10 +80,6 @@ public class CglibBean {
 
 
 
-
-
-
-
     /**
      * @Auther: ＾＿－)≡★ yanyong
      * @Date: 2018/4/20 16:37
@@ -96,12 +92,15 @@ public class CglibBean {
         HashMap propertyMap = new HashMap();
         propertyMap.put("id",Class.forName("java.lang.String"));
         for (ExcelRowColformat er: ercf){
-            propertyMap.put(er.getEntityFiledName(),"java.lang.String");
+            propertyMap.put(er.getEntityFiledName(), Class.forName("java.lang.String"));
         }
         // 生成动态 Bean
         CglibBean bean = new CglibBean(propertyMap);
         return bean;
     }
+
+
+
 
 
 

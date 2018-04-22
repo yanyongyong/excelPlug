@@ -7,14 +7,13 @@ import primary.EntityTest;
 import util.CglibBean;
 import util.ExcelRowColformat;
 
+import java.io.IOException;
 import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static primary.Import.readExcelData;
 import static util.CglibBean.createBean;
+import static util.CreateEntity.entitys;
 //import static util.CreateEntity.createBean;
 
 /**
@@ -27,10 +26,38 @@ import static util.CglibBean.createBean;
  */
 public class demobean {
 
-    private Object obj;
+
+//    public void improtData(String packageOutPath,String entityName,List<ExcelRowColformat> ercfs,String excelPath) throws IOException {
+//        String[] colnames = new String[ercfs.size()];
+//        String[] colTypes = new String[ercfs.size()];
+//        for (int i = 0; i < ercfs.size(); i++){
+//            colnames[i] = ercfs.get(i).getEntityFiledName();
+//            colTypes[i] = "String";
+//        }
+//        entitys(packageOutPath,entityName,colnames,colTypes);
+//
+//    }
+
+    public void improtData(List<ExcelRowColformat> ercfs,String excelPath) throws IOException {
+
+
+    }
+
+    /**
+     * 创建表
+     * @param excelRowColformats
+     * @param tableName
+     */
+    public void creatTable(List<ExcelRowColformat> excelRowColformats,String tableName){
+        String sql = "CREATE TABLE ` " + tableName +" ` (`id` int(11) NOT NULL AUTO_INCREMENT,";
+        for (ExcelRowColformat e : excelRowColformats){
+            sql = sql + "`" +e.getEntityFiledName()+"` VARCHAR(255) COMMENT,";
+        }
+        sql = sql + "PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+    }
 
     @Test
-    public <T> void testImportExcelData() throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, NoSuchFieldException {
+    public <T> void testImportExcelData() throws ClassNotFoundException{
         EntityTest entity = new EntityTest();
         // Excel列数据和实体字段一一对应
         List<ExcelRowColformat> list = new ArrayList<>();
@@ -38,18 +65,11 @@ public class demobean {
         list.add(new ExcelRowColformat("1","1","name"));
         list.add(new ExcelRowColformat("1","2","sex"));
 
-//        CglibBean bean = createBean(list);
+        CglibBean bean = createBean(list);
         // 获得bean的实体
-//        Object object = bean.getObject();
-
-        T c = (T) Class.forName("primary.EntityTest").newInstance();
-
-        Class<?> cls = Class.forName("primary.EntityTest");
-        //使用FieldDemo类的class对象生成 实例
-        Object ob = cls.newInstance();
-
+        Object object = bean.getObject();
         //提取EXCEL文件信息
-        List<Object> objects = readExcelData(ob,"1","4",list,"E:\\2017.xls");
+        List<Object> objects = readExcelData(object,"1","4",list,"E:\\2017.xls");
 
         for (Object o : objects){
             String s = JSON.toJSONString(o);
@@ -57,29 +77,9 @@ public class demobean {
             String vString=jso.getString("sex");
             System.out.println(vString);
         }
-
         System.out.println(objects.size()+":...................");
     }
 
 
-    public static void main(String[] args) throws Exception
-    {
-
-        Class<?> c;
-        try {
-            c = Class.forName("primary.EntityTest");
-            @SuppressWarnings("rawtypes")
-            Constructor[] constructors = c.getConstructors();
-            Object test = constructors[0].newInstance(new Object[] { });//调用无参构造创建实例.
-            Method method1=c.getMethod("getA", new Class[] {});
-            Object o= method1.invoke(test, new Object[]{});
-            System.out.println(o);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-
-    }
 
 }

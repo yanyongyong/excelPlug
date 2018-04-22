@@ -36,12 +36,12 @@ public class CreateEntity {
     //列名大小数组
     private int[] colSizes;
     // 是否需要导入包java.util.*
-    private boolean f_util = true;
+    private static boolean f_util = true;
     // 是否需要导入包java.sql.*
-    private boolean f_sql = false;
+    private static boolean f_sql = false;
 
 
-    public void entitys(String packageOutPath,String entityName,String[] colnames,String[] colTypes) throws IOException {
+    public static void entitys(String packageOutPath,String entityName,String[] colnames,String[] colTypes) throws IOException {
         String content = parse(packageOutPath,entityName,colnames,colTypes);
         File directory = new File("");// 参数为空
         String courseFile = directory.getCanonicalPath();
@@ -59,7 +59,7 @@ public class CreateEntity {
      * 功能：生成实体类主体代码
      * @return
      */
-    private String parse(String packageOutPath,String entityName,String colnames[],String colTypes[]) {
+    private static String parse(String packageOutPath,String entityName,String colnames[],String colTypes[]) {
         StringBuffer sb = new StringBuffer();
         sb.append("package " + packageOutPath + ";\r\n");
         //判断是否导入工具包
@@ -88,7 +88,7 @@ public class CreateEntity {
      * 功能：生成所有属性
      * @param sb
      */
-    private void processAllAttrs(StringBuffer sb,String colnames[],String colTypes[]) {
+    private static void processAllAttrs(StringBuffer sb,String colnames[],String colTypes[]) {
 
         for (int i = 0; i < colnames.length; i++) {
             sb.append("\tprivate " + colTypes[i] + " " + colnames[i] + ";\r\n");
@@ -100,7 +100,7 @@ public class CreateEntity {
      * 功能：生成所有方法
      * @param sb
      */
-    private void processAllMethod(StringBuffer sb,String[] colnames,String colTypes[]) {
+    private static void processAllMethod(StringBuffer sb,String[] colnames,String colTypes[]) {
 
         for (int i = 0; i < colnames.length; i++) {
             sb.append("\tpublic void set" + initcap(colnames[i]) + "(" + colTypes[i] + " " +
@@ -119,7 +119,7 @@ public class CreateEntity {
      * @param str
      * @return
      */
-    private String initcap(String str) {
+    private static String initcap(String str) {
 
         char[] ch = str.toCharArray();
         if(ch[0] >= 'a' && ch[0] <= 'z'){
